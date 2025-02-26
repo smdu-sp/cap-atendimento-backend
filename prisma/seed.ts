@@ -4,16 +4,16 @@ async function main() {
   const root = await prisma.usuario.upsert({
     where: { login: 'diego' },
     create: {
-      login: 'diego',
-      nome: 'Diego',
-      email: 'dc3@mailbox.org',
+      login: 'd854440',
+      nome: 'Bruno Luiz Vieira',
+      email: 'blvieira@prefeitura.sp.gov.br',
       status: 1,
       permissao: 'DEV',
     },
     update: {
-      login: 'diego',
-      nome: 'Diego',
-      email: 'dc3@mailbox.org',
+      login: 'd854440',
+      nome: 'Bruno Luiz Vieira',
+      email: 'blvieira@prefeitura.sp.gov.br',
       status: 1,
       permissao: 'DEV',
     },

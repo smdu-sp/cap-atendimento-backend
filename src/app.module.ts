@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Global, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -10,10 +11,12 @@ import { PrismaModule } from './prisma/prisma.module';
 import { Prisma2Module } from './prisma2/prisma2.module';
 import { VitalidadeModule } from './vitalidade/vitalidade.module';
 import { ConfigModule } from '@nestjs/config';
+import { AgendamentoModule } from './agendamento/agendamento.module';
 
 @Global()
 @Module({
   imports: [
+    AgendamentoModule,
     UsuariosModule,
     AuthModule,
     PrismaModule,
