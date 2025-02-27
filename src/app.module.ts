@@ -12,10 +12,13 @@ import { Prisma2Module } from './prisma2/prisma2.module';
 import { VitalidadeModule } from './vitalidade/vitalidade.module';
 import { ConfigModule } from '@nestjs/config';
 import { AgendamentoModule } from './agendamento/agendamento.module';
+import { CoordenadoriaModule } from './coordenadoria/coordenadoria.module';
+
 
 @Global()
 @Module({
   imports: [
+    CoordenadoriaModule,
     AgendamentoModule,
     UsuariosModule,
     AuthModule,

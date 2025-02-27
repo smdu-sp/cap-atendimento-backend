@@ -43,3 +43,15 @@ model agendamento {
   coordenadoria  String
 }
 
+model coordenadoria {
+  id        String   @id @default(uuid())
+  nome      String
+  sigla     String
+  status    Int       @default(1)
+
+  criadoEm     DateTime @default(now())
+  atualizadoEm DateTime @default(now()) @updatedAt
+}
+
+
+

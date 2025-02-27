@@ -32,15 +32,15 @@ export class AgendamentoService {
 
     return new Promise((resolve, reject) => {
       fs.createReadStream(filePath)
-        .pipe(csv({ separator: ';', headers: false })) // headers: false para não usar a primeira linha como cabeçalhos
+        .pipe(csv({ separator: ';', headers: false })) 
         .on('data', async (row) => {
-          // Ignorar a primeira linha
+          
           if (isFirstRow) {
             isFirstRow = false;
-            return; // Sai sem processar a primeira linha
+            return; 
           }
 
-          // Formatar as datas para o formato aceito pelo JavaScript
+          
           const datainicio = parse(row[4], 'dd/MM/yyyy HH:mm:ss', new Date());
           const datafim = parse(row[5], 'dd/MM/yyyy HH:mm:ss', new Date());
 
@@ -69,7 +69,7 @@ export class AgendamentoService {
             if (results.length > 0) {
                 await this.prisma.agendamento.createMany({ data: results });
             }
-            fs.unlinkSync(filePath); // Deleta o arquivo após o processamento
+            fs.unlinkSync(filePath); 
             resolve({message: `Foram inseridos ${results.length} novos registros.`});
         })
         .on('error', (error) => reject(error));
