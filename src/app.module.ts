@@ -13,11 +13,13 @@ import { VitalidadeModule } from './vitalidade/vitalidade.module';
 import { ConfigModule } from '@nestjs/config';
 import { AgendamentoModule } from './agendamento/agendamento.module';
 import { CoordenadoriaModule } from './coordenadoria/coordenadoria.module';
+import { AnoModule } from './anos/ano.module';
 
 
 @Global()
 @Module({
-  imports: [
+  imports: [    
+    AnoModule,
     CoordenadoriaModule,
     AgendamentoModule,
     UsuariosModule,

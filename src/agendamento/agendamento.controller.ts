@@ -2,6 +2,8 @@
 import {
   Controller,
   Post,
+  Get,
+  Param,
   UseInterceptors,
   UploadedFile,
 } from '@nestjs/common';
@@ -10,7 +12,7 @@ import { AgendamentoService } from './agendamento.service';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
 
-@Controller('upload')
+@Controller('agendamentos')
 export class AgendamentoController {
   constructor(private readonly agendamentoService: AgendamentoService) {}
 
@@ -44,5 +46,14 @@ export class AgendamentoController {
     }
 
     return await this.agendamentoService.processCSV(file.path);
+  }
+
+  @Get('ano/:ano')
+  async getAgendamentosPorAno(@Param('ano') ano: string) {
+    const anoInt = parseInt(ano, 10);
+    if (isNaN(anoInt)) {
+      return { error: 'Ano inválido' };
+    }
+    return this.agendamentoService.getAgendamentosPorAno(anoInt);
   }
 }
