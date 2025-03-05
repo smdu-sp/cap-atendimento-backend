@@ -6,6 +6,7 @@ import {
   Param,
   UseInterceptors,
   UploadedFile,
+  Query,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { AgendamentoService } from './agendamento.service';
@@ -55,5 +56,15 @@ export class AgendamentoController {
       return { error: 'Ano inválido' };
     }
     return this.agendamentoService.getAgendamentosPorAno(anoInt);
+  }
+  
+  @Get('lista-de-agendamentos')
+  async getListaAgendamentos(
+    @Query('dataInicio') dataInicio: string, 
+    @Query('dataFim') dataFim: string, 
+  ) {    
+    const inicio = new Date(dataInicio);
+    const fim = new Date(dataFim);
+    return this.agendamentoService.listaAgendamentos(inicio, fim);
   }
 }

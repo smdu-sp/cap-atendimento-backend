@@ -3,7 +3,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { Injectable } from '@nestjs/common';
 import * as fs from 'fs';
 import * as csv from 'csv-parser';
-import { parse } from 'date-fns'; // Importando a função para parse de data
+import { parse } from 'date-fns'; 
 
 @Injectable()
 export class AgendamentoService {
@@ -28,9 +28,9 @@ export class AgendamentoService {
       datainicio: Date;
       datafim: Date;
       resumo: string;
-    }> = []; // Definição do tipo correta
+    }> = []; 
 
-    let isFirstRow = true; // Variável para controlar a primeira linha
+    let isFirstRow = true; 
 
     return new Promise((resolve, reject) => {
       fs.createReadStream(filePath)
@@ -78,10 +78,10 @@ export class AgendamentoService {
     });
   }
   async getAgendamentosPorAno(ano: number) {
-    const inicioDoAno = new Date(ano, 0, 1); // 1º de Janeiro
-    const fimDoAno = new Date(ano, 11, 31, 23, 59, 59); // 31 de Dezembro
+    const inicioDoAno = new Date(ano, 0, 1); 
+    const fimDoAno = new Date(ano, 11, 31, 23, 59, 59); 
   
-    // Primeiro, obtemos todas as coordenadorias e o total de agendamentos por coordenadoria
+    
     const agendamentosPorCoordenadoria = await this.prisma.agendamento.groupBy({
       by: ['coordenadoria'],
       _count: {
@@ -95,15 +95,15 @@ export class AgendamentoService {
       },
     });
   
-    // Agora, para cada coordenadoria, obtemos a contagem de agendamentos por mês
+   
     const resultados = await Promise.all(
       agendamentosPorCoordenadoria.map(async (item) => {
         const coordenadoria = item.coordenadoria;
   
-        // Inicializa um array para armazenar a contagem de agendamentos por mês
+        
         const contagemMensal = Array(12).fill(0);
   
-        // Obtém a contagem de agendamentos por mês para a coordenadoria atual
+       
         for (let mes = 0; mes < 12; mes++) {
           const inicioDoMes = new Date(ano, mes, 1);
           const fimDoMes = new Date(ano, mes + 1, 0, 23, 59, 59);
@@ -129,9 +129,19 @@ export class AgendamentoService {
       }),
     );
   
-    // Calcula o total de agendamentos no ano
+    
     const totalAno = resultados.reduce((sum, item) => sum + item.total, 0);
   
     return { resultados, totalAno };
   } 
+  async listaAgendamentos(dataInicio: Date, dataFim: Date): Promise<any> {
+    return this.prisma.agendamento.findMany({
+      where: {
+        AND: [
+          { datainicio: { gte: dataInicio } },
+          { datafim: { lte: dataFim } },
+        ],
+      },
+    });
+  }
 }
