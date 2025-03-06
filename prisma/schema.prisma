@@ -33,14 +33,16 @@ model Usuario {
 }
 
 model agendamento {
-  id        String   @id @default(uuid())
-  processo  String
-  motivo   String
-  datainicio DateTime  
-  datafim   DateTime  
-  municipe   String
-  tecnico   String
-  coordenadoria  String
+  id            Int      @id @default(autoincrement()) 
+  motivo        String
+  municipe      String
+  rg            String
+  cpf           String
+  tecnico       String
+  coordenadoria String
+  processo      String  
+  datainicio    DateTime  
+  datafim       DateTime
 }
 
 model coordenadoria {

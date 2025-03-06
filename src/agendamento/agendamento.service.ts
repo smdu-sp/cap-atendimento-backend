@@ -28,6 +28,8 @@ export class AgendamentoService {
       datainicio: Date;
       datafim: Date;
       motivo: string;
+      rg: string,
+      cpf: string;
     }> = []; 
 
     let isFirstRow = true; 
@@ -52,6 +54,8 @@ export class AgendamentoService {
             datainicio,
             datafim,
             motivo: '',
+            rg: row[6]?.trim() || '',
+            cpf: row[7]?.trim() || '',
           };
 
           if (!results.find((r) => this.deepEqual(r, record))) {
