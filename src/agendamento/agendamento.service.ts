@@ -27,7 +27,7 @@ export class AgendamentoService {
       coordenadoria: string;
       datainicio: Date;
       datafim: Date;
-      resumo: string;
+      motivo: string;
     }> = []; 
 
     let isFirstRow = true; 
@@ -51,7 +51,7 @@ export class AgendamentoService {
             coordenadoria: row[3].trim(),
             datainicio,
             datafim,
-            resumo: '',
+            motivo: '',
           };
 
           if (!results.find((r) => this.deepEqual(r, record))) {

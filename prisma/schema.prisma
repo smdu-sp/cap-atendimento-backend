@@ -35,7 +35,7 @@ model Usuario {
 model agendamento {
   id        String   @id @default(uuid())
   processo  String
-  resumo   String
+  motivo   String
   datainicio DateTime  
   datafim   DateTime  
   municipe   String
