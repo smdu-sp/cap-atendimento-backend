@@ -98,6 +98,8 @@ export class AgendamentoService {
       },
     });
 
+    const contagemMensalGeral = Array(12).fill(0);
+
     const resultados = await Promise.all(
       agendamentosPorCoordenadoria.map(async (item) => {
         const coordenadoria = item.coordenadoria;
@@ -119,6 +121,7 @@ export class AgendamentoService {
           });
 
           contagemMensal[mes] = contagem;
+          contagemMensalGeral[mes] += contagem;
         }
 
         return {
@@ -131,17 +134,17 @@ export class AgendamentoService {
 
     const totalAno = resultados.reduce((sum, item) => sum + item.total, 0);
 
-    return { resultados, totalAno };
+    return { resultados, totalAno, totalMensal: contagemMensalGeral };
   }
-  async listaAgendamentos(dataInicio: Date, dataFim: Date): Promise<any> {   
+
+  async listaAgendamentos(dataInicio: Date, dataFim: Date): Promise<any> {
     return this.prisma.agendamento.findMany({
       where: {
         AND: [
           { datainicio: { gte: dataInicio } },
-          { datainicio: { lte: dataFim } }
-          
+          { datainicio: { lte: dataFim } },
         ],
       },
     });
-  }  
+  }
 }
