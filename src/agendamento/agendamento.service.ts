@@ -147,4 +147,41 @@ export class AgendamentoService {
       },
     });
   }
+  async countAgendamentos(dtInicio: string, dtFim: string): Promise<{ total: number; porCoordenadoria: Record<string, number> }> {
+    const inicio = new Date(dtInicio);
+    const fim = new Date(dtFim);
+
+    const total = await this.prisma.agendamento.count({
+      where: {
+        datainicio: {
+          gte: inicio,
+        },
+        datafim: {
+          lte: fim,
+        },
+      },
+    });
+
+    const porCoordenadoria = await this.prisma.agendamento.groupBy({
+      by: ['coordenadoria'],
+      where: {
+        datainicio: {
+          gte: inicio,
+        },
+        datafim: {
+          lte: fim,
+        },
+      },
+      _count: {
+        id: true,
+      },
+    });
+
+    const coordenadoriaCount = porCoordenadoria.reduce((acc, item) => {
+      acc[item.coordenadoria] = item._count.id;
+      return acc;
+    }, {} as Record<string, number>);
+
+    return { total, porCoordenadoria: coordenadoriaCount };
+  }
 }

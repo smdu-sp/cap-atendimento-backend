@@ -21,7 +21,7 @@ export class AgendamentoController {
   @UseInterceptors(
     FileInterceptor('file', {
       storage: diskStorage({
-        destination: './uploads', 
+        destination: './uploads',
         filename: (req, file, callback) => {
           const uniqueSuffix =
             Date.now() + '-' + Math.round(Math.random() * 1e9);
@@ -57,14 +57,26 @@ export class AgendamentoController {
     }
     return this.agendamentoService.getAgendamentosPorAno(anoInt);
   }
-  
+
   @Get('lista-de-agendamentos')
   async getListaAgendamentos(
-    @Query('dataInicio') dataInicio: string, 
-    @Query('dataFim') dataFim: string, 
-  ) {    
+    @Query('dataInicio') dataInicio: string,
+    @Query('dataFim') dataFim: string,
+  ) {
     const inicio = new Date(dataInicio);
     const fim = new Date(dataFim);
     return this.agendamentoService.listaAgendamentos(inicio, fim);
+  }
+
+  @Get('contagem')
+  async getContagemAgendamentos(
+    @Query('dataInicio') dataInicio: string,
+    @Query('dataFim') dataFim: string,
+  ) {
+    if (!dataInicio || !dataFim) {
+      return { error: 'Parâmetros dataInicio e dataFim são obrigatórios' };
+    }
+
+    return this.agendamentoService.countAgendamentos(dataInicio, dataFim);
   }
 }
