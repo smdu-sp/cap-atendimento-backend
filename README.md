@@ -48,7 +48,7 @@ npx prisma migrate dev
 ```
 
 ```bash
-npx prisma generate --schema=prisma2/schema.prisma
+npx prisma generate --schema=prisma/sgu/schema.prisma
 ```
 
 ```bash
